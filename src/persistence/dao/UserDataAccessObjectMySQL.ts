@@ -25,7 +25,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.connection.end()
+            this
         }
     }
 
@@ -42,7 +42,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.connection.end()
+            this
         }
     }
 
@@ -55,7 +55,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error ("Data Access Object Error: " + error)
         } finally {
-            this.connection.end()
+            this
         }
     }
 
@@ -81,7 +81,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.connection.end()
+            this
         }
     }
 
@@ -92,7 +92,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.connection.end()
+            this
         }
     }
 }

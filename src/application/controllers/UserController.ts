@@ -15,15 +15,22 @@ class UserController {
     ) { }
 
     public async all(request: Request, response: Response): Promise<Response> {
-        const users = await this.GetAllUsers.execute();
+        try {
+            const users = await this.GetAllUsers.execute();
 
-        if (!users) {
-            return response.status(404).json({
-                error: "Cannot find any user on database"
+            if (!users) {
+                return response.status(404).json({
+                    error: "Cannot find any user on database"
+                });
+            }
+
+            return response.status(200).json(users);
+        } catch (error) {
+            return response.status(500).json({
+                error: "Internal Server Error",
+                message: error
             });
         }
-
-        return response.status(200).json(users);
     }
 
     public async find(request: Request, response: Response): Promise<Response> {
