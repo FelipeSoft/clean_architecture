@@ -1,19 +1,21 @@
-import { Pool, RowDataPacket } from "mysql2/promise";
+import { Connection, RowDataPacket } from "mysql2/promise";
 import User from "../../domain/entities/User";
 import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/IUserDataAccessObject";
-    
+import Database from "../../config";
+        
 class UserDataAccessObjectSQL implements IUserDataAccessObject{
-    private pool: Pool;
+    private connection: Connection;
 
-    public constructor(pool: Pool) {
-        this.pool = pool;
+    public constructor() {
+        const database = new Database();
+        this.connection = database.getConnection();
     }
 
     public async all(): Promise<RowDataPacket | null> {
         try {
             const query = "SELECT * FROM users;";
-            const [rows] = await this.pool.query(query);
+            const [rows] = await this.connection.query(query);
 
             if (Array.isArray(rows) && rows.length > 0) {
                 return rows as RowDataPacket;
@@ -23,14 +25,14 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.pool.end();
+            this.connection.end()
         }
     }
 
     public async find(id: number): Promise<RowDataPacket | null> {
         try {
             const query = "SELECT * FROM users WHERE id = ?;";
-            const [rows] = await this.pool.query(query, [id]);
+            const [rows] = await this.connection.query(query, [id]);
 
             if (Array.isArray(rows) && rows.length > 0) {
                 return rows as RowDataPacket;
@@ -40,7 +42,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.pool.end();
+            this.connection.end()
         }
     }
 
@@ -49,11 +51,11 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             const query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?);";
             const params = [user.id, user.name, user.email, user.password ? await bcrypt.hash(user.password, 10) : null];
 
-            await this.pool.query(query, params);
+            await this.connection.query(query, params);
         } catch (error) {
             throw new Error ("Data Access Object Error: " + error)
         } finally {
-            this.pool.end();
+            this.connection.end()
         }
     }
 
@@ -75,22 +77,22 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             }
 
             query = query.substring(0, query.length - 2) + " WHERE id = ?;";
-            await this.pool.query(query, properties.values[0]);
+            await this.connection.query(query, properties.values[0]);
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.pool.end();
+            this.connection.end()
         }
     }
 
     public async delete(id: number): Promise<void> {
         try {
             const query = "DELETE FROM users WHERE id = ?;";
-            await this.pool.query(query, [id]);
+            await this.connection.query(query, [id]);
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this.pool.end();
+            this.connection.end()
         }
     }
 }

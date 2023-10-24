@@ -1,11 +1,9 @@
-import App from "./application/app";
+import { app } from "./application/app";
+import dotenv from 'dotenv';
 
-const app = new App();
+dotenv.config();
 const port = process.env.PORT || 8080;
 
-app.express.listen(port, () => {
+app.listen(port, () => {
     console.log("The server is listening on port " + port);
-    app.initializePool();
 });
-
-export const pool = app.getPool();

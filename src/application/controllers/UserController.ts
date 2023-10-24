@@ -6,28 +6,24 @@ import UpdateUser from "../usecases/Users/UpdateUser";
 import DeleteUser from "../usecases/Users/DeleteUser";
 
 class UserController {
-    public constructor (
+    public constructor(
         private readonly CreateUser: CreateUser,
         private readonly GetAllUsers: GetAllUsers,
         private readonly FindUser: FindUser,
         private readonly UpdateUser: UpdateUser,
         private readonly DeleteUser: DeleteUser
-    ) {}
+    ) { }
 
     public async all(request: Request, response: Response): Promise<Response> {
-        try {
-            const users = this.GetAllUsers.execute();
-            if (!users) {
-                return response.status(404).json({
-                    error: "Cannot find any user on database"
-                });
-            }
-            return response.status(200).json(users);
-        } catch (error) {
-            return response.status(500).json({
-                error: "Internal Server Error"
+        const users = await this.GetAllUsers.execute();
+
+        if (!users) {
+            return response.status(404).json({
+                error: "Cannot find any user on database"
             });
         }
+
+        return response.status(200).json(users);
     }
 
     public async find(request: Request, response: Response): Promise<Response> {
@@ -87,8 +83,8 @@ class UserController {
     public async delete(request: Request, response: Response): Promise<Response> {
         try {
             const id = parseInt(request.params.id);
-                await this.DeleteUser.execute(id);
-            
+            await this.DeleteUser.execute(id);
+
             return response.status(200).json({
                 success: "User was deleted"
             });

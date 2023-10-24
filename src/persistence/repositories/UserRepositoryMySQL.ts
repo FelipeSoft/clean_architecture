@@ -2,7 +2,7 @@ import User from "../../domain/entities/User";
 import IUserRepository from "../../domain/interfaces/IUserRepository";
 import IUserDataAccessObject from "../../domain/interfaces/IUserDataAccessObject";
 
-class UserRepositorySQL implements IUserRepository {
+class UserRepositoryMySQL implements IUserRepository {
     public constructor (private readonly UserDataAccessObject: IUserDataAccessObject) {}
         
     public async getAllUsers(): Promise<User[] | null> {
@@ -58,4 +58,4 @@ class UserRepositorySQL implements IUserRepository {
     }
 }
 
-export default UserRepositorySQL;
+export default UserRepositoryMySQL;
