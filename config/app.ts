@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import userRoutes from './routes/userRoutes';
-import dotenv from "dotenv";
+import { userRouter } from '../src/application/modules/UserModule';
 
-dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(userRoutes);
+app.use(userRouter.getRoutes());
 
 export { app };

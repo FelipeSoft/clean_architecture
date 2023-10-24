@@ -2,15 +2,9 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import User from "../../domain/entities/User";
 import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/IUserDataAccessObject";
-import Database from "../../config";
         
 class UserDataAccessObjectSQL implements IUserDataAccessObject{
-    private connection: Connection;
-
-    public constructor() {
-        const database = new Database();
-        this.connection = database.getConnection();
-    }
+    public constructor(private readonly connection: Connection) {}
 
     public async all(): Promise<RowDataPacket | null> {
         try {
@@ -25,7 +19,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this
+            this.connection.end();
         }
     }
 
@@ -42,7 +36,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this
+            this.connection.end();
         }
     }
 
@@ -55,7 +49,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error ("Data Access Object Error: " + error)
         } finally {
-            this
+            this.connection.end();
         }
     }
 
@@ -81,7 +75,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this
+            this.connection.end();
         }
     }
 
@@ -92,7 +86,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         } catch (error) {
             throw new Error("Data Access Object Error: " + error);
         } finally {
-            this
+            this.connection.end();
         }
     }
 }

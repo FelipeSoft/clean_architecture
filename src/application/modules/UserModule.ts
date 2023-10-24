@@ -1,25 +1,28 @@
-import UserController from "../controllers/UserController";
-import CreateUser from "../usecases/Users/CreateUser";
-import UserRepositoryMySQL from "../../persistence/repositories/UserRepositoryMySQL";
-import GetAllUsers from "../usecases/Users/GetAllUsers";
-import FindUser from "../usecases/Users/FindUser";
-import UpdateUser from "../usecases/Users/UpdateUser";
-import DeleteUser from "../usecases/Users/DeleteUser";
+import { Router } from "express";
 import UserDataAccessObjectSQL from "../../persistence/dao/UserDataAccessObjectMySQL";
+import UserRepositoryMySQL from "../../persistence/repositories/UserRepositoryMySQL";
+import UserController from "../controllers/UserController";
+import UserRouter from "../routers/UserRouter";
+import CreateUser from "../usecases/Users/CreateUser";
+import DeleteUser from "../usecases/Users/DeleteUser";
+import FindUser from "../usecases/Users/FindUser";
+import GetAllUsers from "../usecases/Users/GetAllUsers";
+import UpdateUser from "../usecases/Users/UpdateUser";
+import Database from "../../../config/database";
 
-const userDataAccessObject: UserDataAccessObjectSQL = new UserDataAccessObjectSQL();
-const userRepository: UserRepositoryMySQL = new UserRepositoryMySQL(userDataAccessObject);
+const router = Router();
+const connection = new Database();
 
-const createUser: CreateUser = new CreateUser(userRepository);
-const getAllUsers: GetAllUsers = new GetAllUsers(userRepository);
-const findUser: FindUser = new FindUser(userRepository);
-const updateUser: UpdateUser = new UpdateUser(userRepository);
-const deleteUser: DeleteUser = new DeleteUser(userRepository);
+const userDao = new UserDataAccessObjectSQL(connection.getConnection());
+const userRepository = new UserRepositoryMySQL(userDao);
 
-export const userController = new UserController(
-    createUser,
-    getAllUsers,
-    findUser,
-    updateUser,
-    deleteUser
-);
+const createUser = new CreateUser(userRepository);
+const getAllUsers = new GetAllUsers(userRepository);
+const findUser = new FindUser(userRepository);
+const updateUser = new UpdateUser(userRepository);
+const deleteUser = new DeleteUser(userRepository);
+
+const userController = new UserController(createUser, getAllUsers, findUser, updateUser, deleteUser);
+const userRouter = new UserRouter(userController, router);
+
+export { userRouter };
