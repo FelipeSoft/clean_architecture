@@ -35,7 +35,22 @@ class App {
             throw error;
         }
     }
+
+    public getPool(): Pool {
+        return this.pool;
+    }
+
+    public async start(): Promise<void> {
+        await this.initializePool();
+        this.listen();
+    }
+
+    private listen(): void {
+        const port = process.env.PORT || 8080;
+        this.express.listen(port, () => {
+            console.log("The server is listening on port " + port);
+        });
+    }
 }
 
-
-export default new App();
+export default App;
