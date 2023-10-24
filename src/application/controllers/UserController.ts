@@ -25,7 +25,7 @@ class UserController {
             return response.status(200).json(users);
         } catch (error) {
             return response.status(500).json({
-                error: error
+                error: "Internal Server Error"
             });
         }
     }
@@ -43,7 +43,7 @@ class UserController {
             return response.status(200).json(user);
         } catch (error) {
             return response.status(500).json({
-                error: error
+                error: "Internal Server Error"
             });
         }
     }
@@ -87,7 +87,7 @@ class UserController {
     public async delete(request: Request, response: Response): Promise<Response> {
         try {
             const id = parseInt(request.params.id);
-            this.DeleteUser.execute(id);
+                await this.DeleteUser.execute(id);
             
             return response.status(200).json({
                 success: "User was deleted"

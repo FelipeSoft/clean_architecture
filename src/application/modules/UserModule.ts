@@ -1,4 +1,3 @@
-// userModule.ts
 import UserController from "../controllers/UserController";
 import CreateUser from "../usecases/Users/CreateUser";
 import UserRepositorySQL from "../../persistence/repositories/UserRepositoryMySQL";
@@ -7,20 +6,21 @@ import FindUser from "../usecases/Users/FindUser";
 import UpdateUser from "../usecases/Users/UpdateUser";
 import DeleteUser from "../usecases/Users/DeleteUser";
 import UserDataAccessObjectSQL from "../../persistence/dao/UserDataAccessObjectMySQL";
+import { pool } from "../../server";
 
-// const userDataAccessObject = new UserDataAccessObjectSQL(pool);
-// const userRepository = new UserRepositorySQL(userDataAccessObject);
+const userDataAccessObject: UserDataAccessObjectSQL = new UserDataAccessObjectSQL(pool);
+const userRepository: UserRepositorySQL = new UserRepositorySQL(userDataAccessObject);
 
-// const createUser = new CreateUser(userRepository);
-// const getAllUsers = new GetAllUsers(userRepository);
-// const findUser = new FindUser(userRepository);
-// const updateUser = new UpdateUser(userRepository);
-// const deleteUser = new DeleteUser(userRepository);
+const createUser: CreateUser = new CreateUser(userRepository);
+const getAllUsers: GetAllUsers = new GetAllUsers(userRepository);
+const findUser: FindUser = new FindUser(userRepository);
+const updateUser: UpdateUser = new UpdateUser(userRepository);
+const deleteUser: DeleteUser = new DeleteUser(userRepository);
 
-// export const userController = new UserController(
-//     createUser,
-//     getAllUsers,
-//     findUser,
-//     updateUser,
-//     deleteUser
-// );
+export const userController = new UserController(
+    createUser,
+    getAllUsers,
+    findUser,
+    updateUser,
+    deleteUser
+);

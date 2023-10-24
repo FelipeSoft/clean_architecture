@@ -1,8 +1,8 @@
-import { Pool, PoolConnection, RowDataPacket } from "mysql2/promise";
+import { Pool, RowDataPacket } from "mysql2/promise";
 import User from "../../domain/entities/User";
 import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/IUserDataAccessObject";
-
+    
 class UserDataAccessObjectSQL implements IUserDataAccessObject{
     private pool: Pool;
 

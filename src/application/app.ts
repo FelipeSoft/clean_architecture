@@ -20,13 +20,13 @@ class App {
         this.express.use(userRoutes);
     }
 
-    public async initializePool(): Promise<void> {
+    public initializePool(): void {
         try {
             this.pool = mysql2.createPool({
-                user: process.env.DATABASE_USER,
-                password: process.env.DATABASE_PASSWORD,
-                database: process.env.DATABASE_NAME,
-                host: process.env.DATABASE_HOST
+                user: process.env.DB_USER,
+                password: process.env.DB_PASSWORD,
+                database: process.env.DB_NAME,
+                host: process.env.DB_HOST
             });
 
             console.log("Connected with MySQL");
@@ -38,18 +38,6 @@ class App {
 
     public getPool(): Pool {
         return this.pool;
-    }
-
-    public async start(): Promise<void> {
-        await this.initializePool();
-        this.listen();
-    }
-
-    private listen(): void {
-        const port = process.env.PORT || 8080;
-        this.express.listen(port, () => {
-            console.log("The server is listening on port " + port);
-        });
     }
 }
 

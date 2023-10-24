@@ -2,7 +2,8 @@
   "name": "tsnode",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./dist/server.js"
+    "dev": "nodemon ./dist/server.js",
+    "watch": "mkdir dist && cd dist && npx tsc --watch"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
