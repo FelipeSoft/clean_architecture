@@ -8,10 +8,10 @@ class Database {
         dotenv.config();
 
         this.connection = mysql2.createPool({
-            user: process.env.DB_USERNAME,
+            database: process.env.DB_NAME,
             password: process.env.DB_PASSWORD,
             host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
+            user: process.env.DB_USERNAME,
         });
 
         console.log("Connected with MySQL");

@@ -7,6 +7,7 @@ import DeleteUser from "../usecases/User/DeleteUser";
 import UserNotFoundError from "../errors/User/UserNotFoundError";
 import UserIdMissingError from "../errors/User/UserIdMissingError";
 import UserCredentialsMissingError from "../errors/User/UserCredentialsMissingError";
+import UserIdInvalidError from "../errors/User/UserIdInvalidError";
 
 class UserController {
     public constructor(
@@ -54,7 +55,11 @@ class UserController {
 
             return response.status(200).json(user);
         } catch (error) {
-            if (error instanceof UserIdMissingError || error instanceof UserIdInvalidError) {
+            if (error instanceof UserIdMissingError) {
+                return response.status(400).json({
+                    error: error.message
+                });
+            } else if (error instanceof UserIdInvalidError) {
                 return response.status(400).json({
                     error: error.message
                 });

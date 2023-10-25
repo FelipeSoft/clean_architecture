@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/User/IUserDataAccessObject";
         
 class UserDataAccessObjectSQL implements IUserDataAccessObject{
+    query: any;
     public constructor(private readonly connection: Connection) {}
 
     public async all(): Promise<RowDataPacket | null> {
@@ -48,7 +49,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
 
             await this.connection.query(query, params);
         } catch (error) {
-            throw new Error ("UserDAO Error: " + error)
+            throw new Error("UserDAO Error: " + error)
         }
     }
 
@@ -57,20 +58,19 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             let query = "UPDATE users SET ";
 
             const properties = {
-                names: ["_id", "_name", "_email", "_password"],
-                values:  [
+                names: ["id", "name", "email", "password"],
+
+                values: [
                     user.getId(), 
                     user.getName(), 
                     user.getEmail(), 
-                    user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : null
+                    user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : undefined
                 ]
             }
 
             for(let i = 1; i < properties.names.length; i++) {
-                let key = properties.names[i] as keyof User[keyof User];
-
-                if (user[key] !== null) {
-                    query += `${properties.names[i].slice(1)} = "${properties.values[i]}", `
+                if (properties.values[i] !== undefined) {
+                    query += `${properties.names[i]} = "${properties.values[i]}", `
                 }
             }
 

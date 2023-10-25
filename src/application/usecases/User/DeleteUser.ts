@@ -1,4 +1,5 @@
 import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
+import UserIdInvalidError from "../../errors/User/UserIdInvalidError";
 import UserIdMissingError from "../../errors/User/UserIdMissingError";
 
 class DeleteUser {
@@ -9,7 +10,7 @@ class DeleteUser {
             throw new UserIdMissingError("User Error: Missing id field.");
         }    
 
-        if (!Number.isInteger(id) && id <= 0) {
+        if (!Number.isInteger(id) || id <= 0) {
             throw new UserIdInvalidError("User Error: Invalid user id field.")
         }
         

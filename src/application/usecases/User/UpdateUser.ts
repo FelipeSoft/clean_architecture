@@ -1,14 +1,15 @@
 import User from "../../../domain/entities/User";
 import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
+import UserIdInvalidError from "../../errors/User/UserIdInvalidError";
 
 class UpdateUser {
     public constructor(private readonly UserRepository: IUserRepository) {}
 
     public async execute(user: User): Promise<void> {
-        if(!Number.isInteger(user.getId()) && user.getId() < 0) {
+        if(!Number.isInteger(user.getId()) || user.getId() < 0) {
             throw new UserIdInvalidError("User Error: Invalid ID field");
         }
-
+        
         const updatedUser = new User();
         const entries = Object.entries(user);
 
