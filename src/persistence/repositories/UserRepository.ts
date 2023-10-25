@@ -14,10 +14,10 @@ class UserRepositoryMySQL implements IUserRepository {
             for(let i = 0; i < usersFromDatabase.length; i++) {
                 const user = new User();
 
-                user.id = usersFromDatabase[i].id;
-                user.name = usersFromDatabase[i].name;
-                user.email = usersFromDatabase[i].email;
-                user.password = usersFromDatabase[i].password;
+                user.setId(usersFromDatabase[i].id);
+                user.setName(usersFromDatabase[i].name);
+                user.setEmail(usersFromDatabase[i].email);
+                user.setPassword(usersFromDatabase[i].password);
 
                 users.push(user);
             }
@@ -35,10 +35,10 @@ class UserRepositoryMySQL implements IUserRepository {
         if (userFromDatabase) {
             let user = new User();
 
-            user.id = userFromDatabase[0].id;
-            user.name = userFromDatabase[0].name;
-            user.email = userFromDatabase[0].email;
-            user.password = userFromDatabase[0].password;
+            user.setId(userFromDatabase[0].id);
+            user.setName(userFromDatabase[0].name);
+            user.setEmail(userFromDatabase[0].email);
+            user.setPassword(userFromDatabase[0].password);
 
             return user;
         }

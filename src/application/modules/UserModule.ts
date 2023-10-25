@@ -3,11 +3,11 @@ import UserDataAccessObjectSQL from "../../persistence/dao/UserDataAccessObjectM
 import UserRepositoryMySQL from "../../persistence/repositories/UserRepository";
 import UserController from "../controllers/UserController";
 import UserRouter from "../routers/UserRouter";
-import CreateUser from "../usecases/Users/CreateUser";
-import DeleteUser from "../usecases/Users/DeleteUser";
-import FindUser from "../usecases/Users/FindUser";
-import GetAllUsers from "../usecases/Users/GetAllUsers";
-import UpdateUser from "../usecases/Users/UpdateUser";
+import CreateUser from "../usecases/User/CreateUser";
+import DeleteUser from "../usecases/User/DeleteUser";
+import FindUser from "../usecases/User/FindUser";
+import GetAllUsers from "../usecases/User/GetAllUsers";
+import UpdateUser from "../usecases/User/UpdateUser";
 import Database from "../../../config/database";
 
 const router = Router();

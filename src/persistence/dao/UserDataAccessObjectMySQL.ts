@@ -39,7 +39,12 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
     public async create(user: User): Promise<void> {
         try {
             const query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?);";
-            const params = [user.id, user.name, user.email, user.password ? await bcrypt.hash(user.password, 10) : null];
+            const params = [
+                user.getId(), 
+                user.getName(), 
+                user.getEmail(), 
+                user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : null
+            ];
 
             await this.connection.query(query, params);
         } catch (error) {
@@ -53,7 +58,12 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
 
             const properties = {
                 names: ["_id", "_name", "_email", "_password"],
-                values:  [user.id, user.name, user.email, user.password ? await bcrypt.hash(user.password, 10) : null]
+                values:  [
+                    user.getId(), 
+                    user.getName(), 
+                    user.getEmail(), 
+                    user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : null
+                ]
             }
 
             for(let i = 1; i < properties.names.length; i++) {

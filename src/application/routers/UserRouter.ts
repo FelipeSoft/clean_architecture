@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import IRouter from "../../domain/interfaces/IRouter";
 import UserController from "../controllers/UserController";
 
@@ -11,11 +11,11 @@ class UserRouter implements IRouter {
     }
 
     public init(): void {
-        this.router.get("/users/all", (request: Request, response: Response) => this.UserController.all(request, response))
-        this.router.get("/users/find/:id", (request: Request, response: Response) => this.UserController.find(request, response))
-        this.router.post("/users/create", (request: Request, response: Response) => this.UserController.all(request, response))
-        this.router.put("/users/update/:id", (request: Request, response: Response) => this.UserController.update(request, response))
-        this.router.delete("/users/delete/:id", (request: Request, response: Response) => this.UserController.delete(request, response))
+        this.router.get("/users/all", (req, res) => this.UserController.all(req, res));
+        this.router.get("/users/find/:id", (req, res) => this.UserController.find(req, res));
+        this.router.post("/users/create", (req, res) => this.UserController.create(req, res));
+        this.router.put("/users/update/:id", (req, res) => this.UserController.update(req, res));
+        this.router.delete("/users/delete/:id", (req, res) => this.UserController.delete(req, res));
     }
 
     public getRoutes(): Router {

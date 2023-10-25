@@ -1,45 +1,39 @@
-import bcrypt from "bcrypt";
-
 class User {
-    private _id: number | null = null;
-    private _name: string | null = null;
-    private _email: string | null = null;
-    private _password: string | null = null;
+    private id!: number;
+    private name!: string;
+    private email!: string;
+    private password!: string;
 
-    public async encryptPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, 10);
-    }
-
-    public set id(id: number) {
-        this._id = id;
+    public setId(id: number) {
+        this.id = id;
     }  
     
-    public set name(name: string) {
-        this._name = name;
+    public setName(name: string) {
+        this.name = name;
     }    
 
-    public set email(email: string) {
-        this._email = email;
+    public setEmail(email: string) {
+        this.email = email;
     }    
 
-    public set password(password: string) {
-        this._password = password;
+    public setPassword(password: string) {
+        this.password = password;
     }    
 
-    public get id(): number | null {
-        return this._id;
+    public getId(): number {
+        return this.id;
     }
     
-    public get name(): string | null {
-        return this._name;
+    public getName(): string {
+        return this.name;
     }
 
-    public get email(): string | null {
-        return this._email;
+    public getEmail(): string {
+        return this.email;
     }
 
-    public get password(): string | null{
-        return this._password;
+    public getPassword(): string{
+        return this.password;
     }
 }
 

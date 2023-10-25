@@ -5,6 +5,10 @@ class UpdateUser {
     public constructor(private readonly UserRepository: IUserRepository) {}
 
     public async execute(user: User): Promise<void> {
+        if(!Number.isInteger(user.getId()) && user.getId() < 0) {
+            throw new UserIdInvalidError("User Error: Invalid ID field");
+        }
+
         const updatedUser = new User();
         const entries = Object.entries(user);
 

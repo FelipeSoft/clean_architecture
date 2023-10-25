@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import IRouter from "../../domain/interfaces/IRouter";
 import AuthenticationController from "../controllers/AuthenticationController";
 
@@ -11,7 +11,7 @@ class AuthenticationRouter implements IRouter {
     }
     
     public init(): void {
-        this.router.post("/authentication/login", (request: Request, response: Response) => this.AuthenticationController.login(request, response));
+        this.router.get("/authentication/login",(req, res) => this.AuthenticationController.login(req, res));
     }
     
     public getRoutes(): Router {
