@@ -1,10 +1,14 @@
+import bcrypt from "bcrypt";
+
 class User {
     private _id: number | null = null;
     private _name: string | null = null;
     private _email: string | null = null;
     private _password: string | null = null;
 
-    //incluir validações para lançar exceções (throw new Error);
+    public async encryptPassword(password: string): Promise<string> {
+        return await bcrypt.hash(password, 10);
+    }
 
     public set id(id: number) {
         this._id = id;

@@ -1,4 +1,4 @@
-import User from "../entities/User";
+import User from "../../entities/User";
 
 export default interface IUserDataAccessObject {
     all(): Promise<any[] | any | null>;

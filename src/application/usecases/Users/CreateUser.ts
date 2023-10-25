@@ -1,5 +1,5 @@
 import User from "../../../domain/entities/User";
-import IUserRepository from "../../../domain/interfaces/IUserRepository";
+import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
 import GenerateEmail from "./GenerateEmail";
 
 class CreateUser {

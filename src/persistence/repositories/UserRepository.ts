@@ -1,6 +1,6 @@
 import User from "../../domain/entities/User";
-import IUserRepository from "../../domain/interfaces/IUserRepository";
-import IUserDataAccessObject from "../../domain/interfaces/IUserDataAccessObject";
+import IUserRepository from "../../domain/interfaces/User/IUserRepository";
+import IUserDataAccessObject from "../../domain/interfaces/User/IUserDataAccessObject";
 
 class UserRepositoryMySQL implements IUserRepository {
     public constructor (private readonly UserDataAccessObject: IUserDataAccessObject) {}

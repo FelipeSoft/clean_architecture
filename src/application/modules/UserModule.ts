@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserDataAccessObjectSQL from "../../persistence/dao/UserDataAccessObjectMySQL";
-import UserRepositoryMySQL from "../../persistence/repositories/UserRepositoryMySQL";
+import UserRepositoryMySQL from "../../persistence/repositories/UserRepository";
 import UserController from "../controllers/UserController";
 import UserRouter from "../routers/UserRouter";
 import CreateUser from "../usecases/Users/CreateUser";

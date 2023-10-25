@@ -1,4 +1,4 @@
-import IUserRepository from "../../../domain/interfaces/IUserRepository";
+import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
 
 class DeleteUser {
     public constructor(private readonly UserRepository: IUserRepository) {}
