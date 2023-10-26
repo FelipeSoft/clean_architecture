@@ -1,4 +1,5 @@
-import User from "../../entities/User";
+import UserDTO from "../../../persistence/dto/UserDTO";
+import User from "../../../persistence/dto/UserDTO";
 
 export default interface IUserRepository {
     getAllUsers(): Promise<User[] | User | null>;
@@ -7,7 +8,7 @@ export default interface IUserRepository {
 
     createUser(user: User): Promise<void>; 
 
-    updateUser(user: User): Promise<void>; 
+    updateUser(user: Partial<User>): Promise<void>; 
 
     deleteUser(id: number): Promise<void>;
 }

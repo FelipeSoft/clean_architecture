@@ -2,10 +2,9 @@ import { Connection, RowDataPacket } from "mysql2/promise";
 import User from "../../domain/entities/User";
 import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/User/IUserDataAccessObject";
-        
-class UserDataAccessObjectSQL implements IUserDataAccessObject{
-    query: any;
-    public constructor(private readonly connection: Connection) {}
+
+class UserDataAccessObjectSQL implements IUserDataAccessObject {
+    public constructor(private readonly connection: Connection) { }
 
     public async all(): Promise<RowDataPacket | null> {
         try {
@@ -19,6 +18,8 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             return null;
         } catch (error) {
             throw new Error("UserDAO Error: " + error);
+        } finally {
+            this.connection.end();
         }
     }
 
@@ -34,6 +35,8 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             return null;
         } catch (error) {
             throw new Error("UserDAO Error: " + error);
+        } finally {
+            this.connection.end();
         }
     }
 
@@ -41,15 +44,17 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
         try {
             const query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?);";
             const params = [
-                user.getId(), 
-                user.getName(), 
-                user.getEmail(), 
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
                 user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : null
             ];
 
             await this.connection.query(query, params);
         } catch (error) {
             throw new Error("UserDAO Error: " + error)
+        } finally {
+            this.connection.end();
         }
     }
 
@@ -61,23 +66,28 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
                 names: ["id", "name", "email", "password"],
 
                 values: [
-                    user.getId(), 
-                    user.getName(), 
-                    user.getEmail(), 
+                    user.getId(),
+                    user.getName(),
+                    user.getEmail(),
                     user.getPassword() ? await bcrypt.hash(user.getPassword(), 10) : undefined
                 ]
             }
 
-            for(let i = 1; i < properties.names.length; i++) {
+            
+
+            for (let i = 1; i < properties.names.length; i++) {
                 if (properties.values[i] !== undefined) {
                     query += `${properties.names[i]} = "${properties.values[i]}", `
                 }
             }
 
             query = query.substring(0, query.length - 2) + " WHERE id = ?;";
+            console.log(query);
             await this.connection.query(query, properties.values[0]);
         } catch (error) {
             throw new Error("UserDAO Error: " + error);
+        } finally {
+            this.connection.end();
         }
     }
 
@@ -87,6 +97,8 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject{
             await this.connection.query(query, [id]);
         } catch (error) {
             throw new Error("UserDAO Error: " + error);
+        } finally {
+            this.connection.end();
         }
     }
 }

@@ -1,23 +1,24 @@
 import User from "../../domain/entities/User";
 import IUserRepository from "../../domain/interfaces/User/IUserRepository";
 import IUserDataAccessObject from "../../domain/interfaces/User/IUserDataAccessObject";
+import UserDTO from "../dto/UserDTO";
 
 class UserRepositoryMySQL implements IUserRepository {
-    public constructor (private readonly UserDataAccessObject: IUserDataAccessObject) {}
-        
+    public constructor(private readonly UserDataAccessObject: IUserDataAccessObject) { }
+
     public async getAllUsers(): Promise<User[] | null> {
         const dao = this.UserDataAccessObject;
         const usersFromDatabase = await dao.all();
         let users: User[] = [];
 
-        if (usersFromDatabase && Array.isArray(usersFromDatabase)) {    
-            for(let i = 0; i < usersFromDatabase.length; i++) {
-                const user = new User();
-
-                user.setId(usersFromDatabase[i].id);
-                user.setName(usersFromDatabase[i].name);
-                user.setEmail(usersFromDatabase[i].email);
-                user.setPassword(usersFromDatabase[i].password);
+        if (usersFromDatabase && Array.isArray(usersFromDatabase)) {
+            for (let i = 0; i < usersFromDatabase.length; i++) {
+                const user = new User(
+                    usersFromDatabase[i].name,
+                    usersFromDatabase[i].email,
+                    usersFromDatabase[i].password,
+                    usersFromDatabase[i].id,
+                );
 
                 users.push(user);
             }
@@ -28,17 +29,17 @@ class UserRepositoryMySQL implements IUserRepository {
         return null;
     }
 
-    public async getUserById(id: number): Promise<any | null> {
+    public async getUserById(id: number): Promise<User | null> {
         const dao = this.UserDataAccessObject;
         const userFromDatabase = await dao.find(id);
-        
-        if (userFromDatabase) {
-            let user = new User();
 
-            user.setId(userFromDatabase[0].id);
-            user.setName(userFromDatabase[0].name);
-            user.setEmail(userFromDatabase[0].email);
-            user.setPassword(userFromDatabase[0].password);
+        if (userFromDatabase) {
+            let user = new User(
+                userFromDatabase[0].name,
+                userFromDatabase[0].email,
+                userFromDatabase[0].password,
+                userFromDatabase[0].id
+            );
 
             return user;
         }
@@ -48,7 +49,7 @@ class UserRepositoryMySQL implements IUserRepository {
         const dao = this.UserDataAccessObject;
         await dao.create(user);
     }
-    public async updateUser(user: User): Promise<void> {
+    public async updateUser(user: Partial<User>): Promise<void> {
         const dao = this.UserDataAccessObject;
         await dao.update(user);
     }

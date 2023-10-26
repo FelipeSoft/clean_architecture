@@ -7,7 +7,7 @@ export default interface IUserDataAccessObject {
 
     create(user: User): Promise<void>; 
 
-    update(user: User): Promise<void>; 
+    update(user: Partial<User>): Promise<void>; 
 
     delete(id: number): Promise<void>;
 }

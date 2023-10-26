@@ -1,39 +1,28 @@
+import UserIdInvalidError from "../../application/errors/User/UserIdInvalidError";
+
 class User {
-    private id!: number;
-    private name!: string;
-    private email!: string;
-    private password!: string;
+    public readonly id?: number;
+    public name!: string;
+    public email!: string;
+    public password!: string;
 
-    public setId(id: number) {
-        this.id = id;
-    }  
-    
-    public setName(name: string) {
+    public constructor(
+        name: string, 
+        email: string, 
+        password: string,
+        id?: number
+    ) {
+        if (id) this.id = id;
         this.name = name;
-    }    
-
-    public setEmail(email: string) {
         this.email = email;
-    }    
-
-    public setPassword(password: string) {
         this.password = password;
-    }    
-
-    public getId(): number {
-        return this.id;
-    }
-    
-    public getName(): string {
-        return this.name;
     }
 
-    public getEmail(): string {
-        return this.email;
-    }
-
-    public getPassword(): string{
-        return this.password;
+    public isValid(id: number) {
+        if (!Number.isInteger(id) || id < 0) {
+            throw new UserIdInvalidError("Entity User Error: Cannot use a invalid ID");
+        }
+        return true;
     }
 }
 

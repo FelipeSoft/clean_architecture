@@ -8,6 +8,7 @@ import UserNotFoundError from "../errors/User/UserNotFoundError";
 import UserIdMissingError from "../errors/User/UserIdMissingError";
 import UserCredentialsMissingError from "../errors/User/UserCredentialsMissingError";
 import UserIdInvalidError from "../errors/User/UserIdInvalidError";
+import UserDTO from "../../persistence/dto/UserDTO";
 
 class UserController {
     public constructor(
@@ -97,30 +98,20 @@ class UserController {
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
-        try {
-            const user = request.body.user;
+        const { id, name, email, password } = request.body.user;
 
-            if (user.id) {
-                await this.updateUser.execute(user);
-                return response.status(200).json({
-                    success: "User was updated on database"
-                });
-            }
-
+        if (!id && (!name || !email || !password)) {
             return response.status(400).json({
-                error: "Missing field id"
-            });
-        } catch (error) {
-            if (error instanceof UserIdInvalidError) {
-                return response.status(404).json({
-                    error: error.message
-                });
-            } else {
-                return response.status(500).json({
-                    error: "Internal Server Error"
-                });
-            }
+                error: "Missing fields"
+            }); 
         }
+
+        const dto = new UserDTO(request.body.user);
+        await this.updateUser.execute(dto);
+        
+        return response.status(200).json({
+            success: "User was updated on database"
+        });
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {

@@ -1,5 +1,6 @@
 import User from "../../../domain/entities/User";
 import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
+import UserIdInvalidError from "../../errors/User/UserIdInvalidError";
 import UserIdMissingError from "../../errors/User/UserIdMissingError";
 import UserNotFoundError from "../../errors/User/UserNotFoundError";
 
