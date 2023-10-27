@@ -99,19 +99,40 @@ class UserController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const { id, name, email, password } = request.body.user;
-
-        if (!id && (!name || !email || !password)) {
-            return response.status(400).json({
-                error: "Missing fields"
-            }); 
-        }
-
-        const dto = new UserDTO(request.body.user);
-        await this.updateUser.execute(dto);
         
-        return response.status(200).json({
-            success: "User was updated on database"
-        });
+        try {
+            if (!id && (!name || !email || !password)) {
+                return response.status(400).json({
+                    error: "Missing fields"
+                }); 
+            }
+    
+            const dto = new UserDTO(name, email, password, id);
+            await this.updateUser.execute(dto);
+            
+            return response.status(200).json({
+                success: "User was updated on database"
+            });
+        } catch (error) {
+            console.error(error);
+            if (error instanceof UserIdInvalidError) {
+                return response.status(400).json({
+                    error: error.message
+                });
+            } else if (error instanceof UserCredentialsMissingError) {
+                return response.status(400).json({
+                    error: error.message
+                });
+            } else if (error instanceof UserNotFoundError) {
+                return response.status(400).json({
+                    error: error.message
+                });
+            } else {
+                return response.status(500).json({
+                    error: "Internal Server Error"
+                });
+            }
+        }
     }
 
     public async delete(request: Request, response: Response): Promise<Response> {

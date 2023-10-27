@@ -17,9 +17,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
 
             return null;
         } catch (error) {
-            throw new Error("UserDAO Error: " + error);
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error);
         }
     }
 
@@ -34,9 +32,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
 
             return null;
         } catch (error) {
-            throw new Error("UserDAO Error: " + error);
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error);
         }
     }
 
@@ -51,9 +47,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
 
             return null;
         } catch (error) {
-            throw new Error("UserDAO Error: " + error);
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error);
         }
     }
 
@@ -69,9 +63,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
 
             await this.connection.query(query, params);
         } catch (error) {
-            throw new Error("UserDAO Error: " + error)
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error)
         }
     }
 
@@ -85,9 +77,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
                 user.id
             ]);
         } catch (error) {
-            throw new Error("UserDAO Error: " + error);
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error);
         }
     }
 
@@ -96,9 +86,7 @@ class UserDataAccessObjectSQL implements IUserDataAccessObject {
             const query = "DELETE FROM users WHERE id = ?;";
             await this.connection.query(query, [id]);
         } catch (error) {
-            throw new Error("UserDAO Error: " + error);
-        } finally {
-            await this.connection.end();
+            throw new Error("UserDAO Error[SQL] " + error);
         }
     }
 }

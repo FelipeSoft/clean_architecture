@@ -20,6 +20,18 @@ class User {
         this.isValidPassword(this.password) ? password = password : null;
     }
 
+    public updateName(name: string): boolean {
+        return this.isValidName(name);
+    }
+
+    public updateEmail(email: string): boolean {
+        return this.isValidEmail(email);
+    }
+
+    public updatePassword(password: string): boolean {
+        return this.isValidPassword(password);
+    }
+
     private isValidId(id: number): boolean {
         if (id && (!Number.isInteger(id) || id < 0)) {
             throw new UserIdInvalidError("Cannot use this ID. All them should bigger than 0 and integers.");

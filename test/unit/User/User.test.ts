@@ -1,6 +1,6 @@
-import UserCredentialsInvalidError from "../../src/application/errors/User/UserCredentialsInvalidError";
-import UserIdInvalidError from "../../src/application/errors/User/UserIdInvalidError";
-import User from "../../src/domain/entities/User";
+import UserCredentialsInvalidError from "../../../src/application/errors/User/UserCredentialsInvalidError";
+import UserIdInvalidError from "../../../src/application/errors/User/UserIdInvalidError";
+import User from "../../../src/domain/entities/User";
 
 describe("User Entity", () => {    
     it("Lançar exceção caso o ID seja inválido", () => {

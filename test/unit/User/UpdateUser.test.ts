@@ -1,13 +1,13 @@
 import { expect } from "@jest/globals";
-import UserRepositoryMySQL from "../../src/persistence/repositories/UserRepository";
-import UserDataAccessObjectSQL from "../../src/persistence/dao/UserDataAccessObjectMySQL";
-import Database from "../../config/database";
-import UpdateUser from "../../src/application/usecases/User/UpdateUser";
-import UserDTO from "../../src/persistence/dto/UserDTO";
-import UserIdMissingError from "../../src/application/errors/User/UserIdMissingError";
-import UserCredentialsMissingError from "../../src/application/errors/User/UserCredentialsMissingError";
-import UserRepository from "../../src/persistence/repositories/UserRepository";
-import UserNotFoundError from "../../src/application/errors/User/UserNotFoundError";
+import UserRepositoryMySQL from "../../../src/persistence/repositories/UserRepository";
+import UserDataAccessObjectSQL from "../../../src/persistence/dao/UserDataAccessObjectMySQL";
+import Database from "../../../config/database";
+import UpdateUser from "../../../src/application/usecases/User/UpdateUser";
+import UserDTO from "../../../src/persistence/dto/UserDTO";
+import UserIdMissingError from "../../../src/application/errors/User/UserIdMissingError";
+import UserCredentialsMissingError from "../../../src/application/errors/User/UserCredentialsMissingError";
+import UserRepository from "../../../src/persistence/repositories/UserRepository";
+import UserNotFoundError from "../../../src/application/errors/User/UserNotFoundError";
 
 describe("UpdateUser", () => {
   it("Deve lançar uma exceção caso ID não esteja presente", async () => {
@@ -27,6 +27,8 @@ describe("UpdateUser", () => {
         expect(error).toBeInstanceOf(UserIdMissingError);
         expect(error.message).toBe("Missing field ID.");
       }
+    } finally {
+      connection.closeConnection();
     }
   });
 
@@ -44,6 +46,8 @@ describe("UpdateUser", () => {
         expect(error).toBeInstanceOf(UserCredentialsMissingError);
         expect(error.message).toBe("Few arguments to update. Expected at least 1 argument.");
       }
+    } finally {
+      connection.closeConnection();
     }
   });
 
@@ -60,6 +64,8 @@ describe("UpdateUser", () => {
         expect(error).toBeInstanceOf(UserNotFoundError);
         expect(error.message).toBe("Cannot find user.");
       }
+    } finally {
+      connection.closeConnection();
     }
   });
 });

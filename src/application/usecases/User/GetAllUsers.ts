@@ -9,7 +9,7 @@ class GetAllUsers {
         const user = await this.userRepository.getAllUsers();
 
         if(user === null) {
-            throw new UserNotFoundError("User Error: Cannot find users on database")
+            throw new UserNotFoundError("Cannot find users on database.")
         }
 
         return user;
