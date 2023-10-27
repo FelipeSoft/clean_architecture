@@ -1,27 +1,50 @@
+import UserCredentialsInvalidError from "../../application/errors/User/UserCredentialsInvalidError";
 import UserIdInvalidError from "../../application/errors/User/UserIdInvalidError";
 
 class User {
-    public readonly id?: number;
-    public name!: string;
-    public email!: string;
-    public password!: string;
-
     public constructor(
-        name: string, 
-        email: string, 
-        password: string,
-        id?: number
+        private name: string,
+        private email: string,
+        private password: string,
+        private readonly id?: number
     ) {
-        if (id) this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
+        if (this.id && this.isValidId(this.id)) {
+            this.id = id;
+        }
+
+        this.isValidName(this.name) ? this.name = name : null;
+        this.isValidEmail(this.email) ? this.email = email : null;
+        this.isValidPassword(this.password) ? this.password = password : null;
     }
 
-    public isValid(id: number) {
-        if (!Number.isInteger(id) || id < 0) {
-            throw new UserIdInvalidError("Entity User Error: Cannot use a invalid ID");
+    private isValidId(id: number): boolean {
+        if (id && (!Number.isInteger(id) || id < 0)) {
+            throw new UserIdInvalidError("User Error: Cannot use this ID. All them should bigger than 0 and integers.");
         }
+        return true;
+    }
+
+    private isValidName(name: string): boolean {
+        if (name && name.length < 2) {
+            throw new UserCredentialsInvalidError("User Error: Cannot use this name. All them should are bigger than size two.");
+        }
+        return true;
+    }
+
+    private isValidEmail(email: string): boolean {
+        const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (email && !regex.test(email)) {
+            throw new UserCredentialsInvalidError("User Error: Cannot use a invalid email. Please make sure to enter a valid email address.");
+        }
+
+        return true;
+    }
+    
+    private isValidPassword(password: string): boolean {
+        if (password.length < 8) {
+            throw new UserCredentialsInvalidError("User Error: Cannot use this password. All them should are bigger or equal than size eight.");
+        }
+
         return true;
     }
 }
