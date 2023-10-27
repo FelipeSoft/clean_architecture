@@ -1,8 +1,8 @@
-import Database from "../../../config/database";
-import UserNotFoundError from "../../../src/application/errors/User/UserNotFoundError";
-import GetAllUsers from "../../../src/application/usecases/User/GetAllUsers";
-import UserDataAccessObjectSQL from "../../../src/persistence/dao/UserDataAccessObjectMySQL";
-import UserRepository from "../../../src/persistence/repositories/UserRepository";
+import Database from "../../config/database";
+import UserNotFoundError from "../../src/application/errors/User/UserNotFoundError";
+import GetAllUsers from "../../src/application/usecases/User/GetAllUsers";
+import UserDataAccessObjectSQL from "../../src/persistence/dao/UserDataAccessObjectMySQL";
+import UserRepository from "../../src/persistence/repositories/UserRepository";
 
 describe("GetAllUsers", () => {
     it("Deve lançar uma execeção caso não haja nenhum usuário no banco de dados", async () => {
