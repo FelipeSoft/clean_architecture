@@ -8,20 +8,17 @@ class CreateUser {
     public constructor(private readonly UserRepository: IUserRepository) { }
 
     public async execute(user: User): Promise<void> {
-        if (!user.getName() || !user.getPassword() || !user.getEmail()) {
+        if (!user.name || !user.password || !user.email) {
             throw new UserCredentialsMissingError("User Error: Missing credentials of user.");
         }
 
         const generateEmailUseCase = new GenerateEmail(this.UserRepository);
-        const generatedEmail = await generateEmailUseCase.execute(user.getId(), user.getName());
-        const encryptedPassword = await bcrypt.hash(user.getPassword(), 10);
+        const generatedEmail = await generateEmailUseCase.execute(user.name, user.email);
+        const encryptedPassword = await bcrypt.hash(user.password, 10);
 
-        const newUser = new User();
-        newUser.setName(user.getName());
-        newUser.setEmail(generatedEmail);
-        newUser.setPassword(encryptedPassword);
+        const newUser = new User(user.name, generatedEmail, encryptedPassword);
 
-        await this.UserRepository.createUser(user);
+        await this.UserRepository.createUser(newUser);
     }
 }
 

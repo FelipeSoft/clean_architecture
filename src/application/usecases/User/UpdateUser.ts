@@ -1,4 +1,3 @@
-import User from "../../../domain/entities/User";
 import IUserRepository from "../../../domain/interfaces/User/IUserRepository";
 import UserDTO from "../../../persistence/dto/UserDTO";
 import UserCredentialsMissingError from "../../errors/User/UserCredentialsMissingError";
@@ -17,31 +16,25 @@ class UpdateUser {
             throw new UserCredentialsMissingError("Few arguments to update. Expected at least 1 argument.");
         }
 
-        const properties = {
-            names: ["name", "email", "password"],
+        const existingUser = await this.userRepository.getUserById(user.id);
 
-            values: [
-                user.name,
-                user.email,
-                user.password
-            ]
-        }
+        if (existingUser) {
+            if (user.name) {
+                existingUser.name = user.name;
+            }
 
-        const userFromDatabase = await this.userRepository.getUserById(user.id);
+            if (user.email) {
+                existingUser.email = user.email;
+            }
 
-        if (userFromDatabase) {
-            const updatedUser = new User(
-                userFromDatabase.name, 
-                userFromDatabase.email, 
-                userFromDatabase.password, 
-                userFromDatabase.id
-            );
+            if (user.password) {
+                existingUser.password = user.password;
+            }
 
-            await this.userRepository.updateUser(updatedUser);
+            await this.userRepository.updateUser(existingUser);
         } else {
-            throw new UserNotFoundError("Cannot find user with ID " + user.id + ".");
+            throw new UserNotFoundError("Cannot find user.");
         }
-
     }
 }
 

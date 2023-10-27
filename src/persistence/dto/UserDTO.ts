@@ -1,13 +1,15 @@
-class UserDTO {
-    [key: string]: any;
+class IUserDTO {
+    public id?: number;
+    public name?: string;
+    public email?: string;
+    public password?: string;
 
-    constructor(data: { [key: string]: any }) {
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                this[key] = data[key];
-            }
-        }
+    public constructor (name?: string, email?: string, password?: string, id?: number) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.id = id;
     }
 }
 
-export default UserDTO;
+export default IUserDTO;
