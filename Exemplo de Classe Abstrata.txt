@@ -1,0 +1,52 @@
+// AuthService.ts
+interface User {
+    id: string;
+    username: string;
+    password: string;
+}
+
+export interface AuthenticationService {
+    authenticate(username: string, password: string): Promise<User | null>;
+    generateToken(user: User): string;
+}
+
+export abstract class AbstractAuthenticationService implements AuthenticationService {
+    async authenticate(username: string, password: string): Promise<User | null> {
+        const user = await this.findUserByUsername(username);
+
+        if (user && this.verifyPassword(password, user.password)) {
+            return user;
+        }
+
+        return null;
+    }
+
+    abstract findUserByUsername(username: string): Promise<User | null>;
+    abstract verifyPassword(plainPassword: string, hashedPassword: string): boolean;
+
+    generateToken(user: User): string {
+        // Implement token generation logic (e.g., JWT) here
+        return 'generated_token';
+    }
+}
+
+// TeacherAuthService.ts
+import { AbstractAuthenticationService, User } from './AuthService';
+
+class TeacherAuthService extends AbstractAuthenticationService {
+    private teacherDatabase: User[] = [
+        { id: '1', username: 'teacher1', password: 'hashed_password_1' },
+        { id: '2', username: 'teacher2', password: 'hashed_password_2' },
+    ];
+
+    async findUserByUsername(username: string): Promise<User | null> {
+        return this.teacherDatabase.find((user) => user.username === username) || null;
+    }
+
+    verifyPassword(plainPassword: string, hashedPassword: string): boolean {
+        // Implement password verification logic (e.g., using bcrypt) here
+        return plainPassword === hashedPassword;
+    }
+}
+
+export default TeacherAuthService;

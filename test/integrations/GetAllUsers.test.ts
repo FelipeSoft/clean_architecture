@@ -23,6 +23,4 @@ describe("GetAllUsers", () => {
             connection.closeConnection();
         }
     });
-
-    it("")
 });
