@@ -3,8 +3,6 @@ import UserIdInvalidError from "../../application/errors/User/UserIdInvalidError
 import bcrypt from "bcrypt";
 
 class User {
-    
-
     public constructor(
         public name: string,
         public email: string,

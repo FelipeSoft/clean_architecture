@@ -10,14 +10,14 @@ import UserCredentialsMissingError from "../errors/User/UserCredentialsMissingEr
 import UserIdInvalidError from "../errors/User/UserIdInvalidError";
 import UserDTO from "../../persistence/dto/UserDTO";
 
-class UserController {
+class UserController{
     public constructor(
         private readonly createUser: CreateUser,
         private readonly getAllUsers: GetAllUsers,
         private readonly findUser: FindUser,
         private readonly updateUser: UpdateUser,
-        private readonly deleteUser: DeleteUser
-    ) { }
+        private readonly deleteUser: DeleteUser,
+    ) {}
 
     public async all(request: Request, response: Response): Promise<Response> {
         try {

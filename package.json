@@ -2,7 +2,7 @@
   "name": "tsnode",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./dist/config/server.js",
+    "dev": "nodemon ./dist/core/server.js",
     "watch": "(mkdir dist && cd dist && npx tsc --watch) || (npx tsc --watch)",
     "test": "npx jest"
   },

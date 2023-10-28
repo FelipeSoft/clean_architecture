@@ -1,8 +1,8 @@
 import { Router } from "express";
 import AuthenticationController from "../controllers/AuthenticationController";
 import LoginAuthentication from "../usecases/Authentication/LoginAuthentication";
-import AuthenticationRouter from "../routers/AuthenticationRouter";
-import Database from "../../../config/database";
+import AuthenticationRouter from "../routers/authenticationRoutes";
+import Database from "../../../core/Database";
 import AuthenticationDataAccessObjectMySQL from "../../persistence/dao/AuthenticationDataAccessObjectMySQL";
 import AuthenticationRepository from "../../persistence/repositories/AuthenticationRepository";
 
@@ -14,6 +14,5 @@ const authenticationRepository = new AuthenticationRepository(authenticationData
 const loginAuthentication = new LoginAuthentication(authenticationRepository);
 
 const authenticationController = new AuthenticationController(loginAuthentication);
-const authenticationRouter = new AuthenticationRouter(authenticationController, router);
 
-export { authenticationRouter };
+export { authenticationController };

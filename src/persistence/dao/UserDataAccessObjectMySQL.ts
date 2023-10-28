@@ -1,4 +1,4 @@
-import { Connection, RowDataPacket } from "mysql2/promise";
+import { Connection, Pool, RowDataPacket } from "mysql2/promise";
 import User from "../../domain/entities/User";
 import bcrypt from "bcrypt";
 import IUserDataAccessObject from "../../domain/interfaces/User/IUserDataAccessObject";

@@ -5,20 +5,23 @@ import UserCredentialsMissingError from "../../errors/User/UserCredentialsMissin
 import GenerateEmail from "./GenerateEmail";
 
 class CreateUser {
-    public constructor(private readonly UserRepository: IUserRepository) { }
+    public constructor(
+        private readonly userRepository: IUserRepository,
+        private readonly generateEmail: GenerateEmail
+    ) { }
 
-    public async execute(user: User): Promise<void> {
+    public async execute(user: User): Promise<User> {
         if (!user.name || !user.password || !user.email) {
             throw new UserCredentialsMissingError("User Error: Missing credentials of user.");
         }
 
-        const generateEmailUseCase = new GenerateEmail(this.UserRepository);
-        const generatedEmail = await generateEmailUseCase.execute(user.name, user.email);
+        const generatedEmail = await this.generateEmail.execute(user.name, user.email);
         const encryptedPassword = await bcrypt.hash(user.password, 10);
 
         const newUser = new User(user.name, generatedEmail, encryptedPassword);
 
-        await this.UserRepository.createUser(newUser);
+        await this.userRepository.createUser(newUser);
+        return newUser;
     }
 }
 

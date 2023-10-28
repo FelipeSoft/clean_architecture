@@ -1,7 +1,7 @@
 import { expect } from "@jest/globals";
 import UserRepositoryMySQL from "../../src/persistence/repositories/UserRepository";
 import UserDataAccessObjectSQL from "../../src/persistence/dao/UserDataAccessObjectMySQL";
-import Database from "../../config/database";
+import Database from "../../core/Database";
 import UpdateUser from "../../src/application/usecases/User/UpdateUser";
 import UserDTO from "../../src/persistence/dto/UserDTO";
 import UserIdMissingError from "../../src/application/errors/User/UserIdMissingError";

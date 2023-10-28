@@ -1,4 +1,4 @@
-import Database from "../../config/database";
+import Database from "../../core/Database";
 import UserNotFoundError from "../../src/application/errors/User/UserNotFoundError";
 import GetAllUsers from "../../src/application/usecases/User/GetAllUsers";
 import UserDataAccessObjectSQL from "../../src/persistence/dao/UserDataAccessObjectMySQL";
